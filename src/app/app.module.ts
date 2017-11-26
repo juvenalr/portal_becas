@@ -62,7 +62,8 @@ import {ServicioInstitucionEducacionSuperior} from "./services/institucion.educa
 import {ServicioNivelIdioma} from "./services/nivel.idioma.service";
 import {InformacionIdiomaComponent} from "./solicitante/informacion-idioma/informacion-idioma.component";
 import { BsDatepickerModule } from 'ngx-bootstrap';
-
+import {SiNoPipe} from "./custom-pipe/custom-pipe";
+import {ModalEtapaOfertaComponent} from "./oferta/modal-etapa-oferta/modal-etapa-oferta.component";
 
 
 //declare let jQuery : Object;
@@ -103,7 +104,10 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     AgregarEtapaOfertaComponent,
     InformacionAcademicaBasicaComponent,
     InformacionAcademicaSuperiorComponent,
-    InformacionIdiomaComponent
+    InformacionIdiomaComponent,
+    SiNoPipe,
+    ModalEtapaOfertaComponent
+
   ],
   imports: [
     BrowserModule,
