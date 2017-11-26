@@ -1,0 +1,43 @@
+<simple-modal title="Agregar Información Idioma" elementId="informacionIdioma">
+  <div class="container top-buffer">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Idioma</label>
+            <div class="col-sm-5">
+              <select class="form-control" [(ngModel)]="informacionIdioma.id_idioma" name="idioma" required id="idioma">
+                <option value="0">-- Seleccione --</option>
+                <option *ngFor="let idioma of idiomas" [ngValue]="idioma.id">{{idioma.descripcion}}</option>
+              </select>
+
+              <!--<input  class="form-control" type="text" [(ngModel)]=" experienciaLaboral.nombre_empresa" required>-->
+              <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.experienciaLaboral?.invalid && (formSolicitante.controls.experienciaLaboral?.touched)">El nombre de empresa usuario es requerido</div>-->
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Nivel Idioma</label>
+            <!--<label class="col-sm-4 col-form-label" >Fecha Inicio</label>-->
+            <div class="col-sm-5">
+              <select class="form-control" [(ngModel)]="informacionIdioma.id_nivel_idioma" name="nivelIdioma" required id="nivelIdioma">
+                <option value="0">-- Seleccione --</option>
+                <option *ngFor="let nivelIdioma of nivelesIdioma" [ngValue]="nivelIdioma.id">{{nivelIdioma.descripcion}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="top-buffer">
+          <!--<input type="button" class="btn btn-secondary" />-->
+          <button type="button" class="btn btn-primary" (click)="agregarInformacionAcademicaBasica()"><span class="glyphicon glyphicon-ok"></span> Agregar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</simple-modal>

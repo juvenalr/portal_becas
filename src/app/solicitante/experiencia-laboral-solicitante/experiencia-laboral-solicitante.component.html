@@ -1,0 +1,60 @@
+<simple-modal title="Agregar Experiencia Laboral" elementId="experienciaLaboral">
+  <!--<h4>Experiencia Laboral</h4>-->
+  <div class="container top-buffer">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Nombre Empresa</label>
+            <div class="col-sm-5">
+              <input  class="form-control" type="text" [(ngModel)]="experienciaLaboral.nombre_empresa" required>
+              <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.experienciaLaboral?.invalid && (formSolicitante.controls.experienciaLaboral?.touched)">El nombre de empresa usuario es requerido</div>-->
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Fecha Inicio</label>
+            <!--<label class="col-sm-4 col-form-label" >Fecha Inicio</label>-->
+            <div class="col-sm-5">
+              <!--<input class="form-control" type="date" [(ngModel)]="experienciaLaboral.fecha_inicio">-->
+              <input class="form-control" type="text" [(ngModel)]="experienciaLaboral.fecha_inicio"  bsDatepicker placeholder="Seleccione una fecha...">
+              <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.nombre?.invalid && (formOferente.controls.nombre?.touched)">El nombre es requerido</div>-->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Fecha Fin</label>
+            <div class="col-sm-5">
+              <!--<input class="form-control" type="date"  [(ngModel)]="experienciaLaboral.fecha_fin">-->
+              <input class="form-control" type="text" [(ngModel)]="experienciaLaboral.fecha_fin"  bsDatepicker placeholder="Seleccione una fecha...">
+              <input [ngModel]="experienciaLaboral.fecha_fin | date:'shortDate'"
+                     (ngModelChange)="experienciaLaboral.fecha_fin=$event" name="fecha_fin" type="hidden" />
+              <!--<input class="form-control" type="date" >-->
+              <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.nombre?.invalid && (formOferente.controls.nombre?.touched)">El nombre es requerido</div>-->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Cargo</label>
+            <div class="col-sm-5">
+              <input class="form-control" type="text" [(ngModel)]="experienciaLaboral.cargo">
+              <!--<input class="form-control" type="text" [(ngModel)]="cargo">-->
+            </div>
+          </div>
+        </div>
+
+        <div class="top-buffer">
+          <!--<input type="button" class="btn btn-secondary" />-->
+          <button type="button" class="btn btn-primary" (click)="agregarExperiencia()"><span class="glyphicon glyphicon-ok"></span> Agregar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+        </div>
+      </div>
+
+      </div>
+    </div>
+
+</simple-modal>

@@ -1,0 +1,282 @@
+<!--[formGroup] = "formSolicitante"-->
+<form #formSolicitante="ngForm"  class="form-horizontal" (ngSubmit)="crearSolicitante(formSolicitante.value)">
+  <h3>Creación de Cuenta : Solicitante </h3>
+  <h4>Datos de Usuario</h4>
+  <hr class="sep-tt">
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-2">Usuario</label>
+        <div class="col-sm-4">
+          <input id="login" required class="form-control" type="text" (ngModel)="solicitante.login" name="login">
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.login?.invalid && (formSolicitante.controls.login.touched)">El nombre de usuario es requerido</div>
+        </div>
+          <label class="col-sm-2">Correo Electrónico</label>
+          <div class="col-sm-4">
+            <input class="form-control" type="email" [(ngModel)]="solicitante.usuario.correoElectronico" name="correoelectronico" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+            <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.correoelectronico?.invalid && (formSolicitante.controls.correoelectronico.touched)">El correo electrónico es requerido</div>-->
+            <div class="md-errors-spacer" [hidden]="formSolicitante.controls.correoelectronico?.valid || formSolicitante.controls.correoelectronico?.untouched">
+              <div  *ngIf="formSolicitante.controls.correoelectronico?.errors && formSolicitante.controls.correoelectronico.errors.required">
+                <div class="form-control alert-danger">El correo electrónico es requerido</div>
+              </div>
+              <div  *ngIf="formSolicitante.controls.correoelectronico?.errors && formSolicitante.controls.correoelectronico.errors.pattern">
+                <div class="form-control alert-danger">El correo electrónico es invalido</div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-2">Contraseña</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" [(ngModel)]="solicitante.usuario.contrasenia" name="contrasenia" id="contrasenia" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.contrasenia?.invalid && (formSolicitante.controls.contrasenia.touched)">La contraseña es requerida</div>
+        </div>
+
+        <label class="col-sm-2">Confirmar Contraseña</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text"  name="confirmarcontrasenia" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.confirmarcontrasenia?.invalid && (formSolicitante.controls.confirmarcontrasenia.touched)">La confirmacion de la contraseña es requerida</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <br>
+
+
+    <h4>Datos Solicitante</h4>
+    <hr class="sep-tt">
+
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Número Documento</label>
+        <div class="col-sm-4">
+          <!--<em *ngIf="!validarNumeroDocumento() && formularioSolicitante.controls.numeroDocumento.errors.required">El campo es requerido</em>-->
+          <!--<input formControlName="numeroDocumento"  class="form-control" type="text" [(ngModel)]="solicitante.numeroDocumento" name="numeroDocumento" [ngClass]="{'error' : !validarNumeroDocumento()}">-->
+          <input  class="form-control" type="text" [(ngModel)]="solicitante.numeroDocumento" name="numeroDocumento" id="numeroDocumento" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.numeroDocumento?.invalid && (formSolicitante.controls.numeroDocumento.touched)">El número de documento es requerido</div>
+        </div>
+
+        <label class="col-sm-2 col-form-label">Tipo Documento</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoTipoDocumento" name="tipoDocumento" required id="tipoDocumento">
+            <option *ngFor="let tipoDocumento of tipoDocumentos" [ngValue]="tipoDocumento.id">{{tipoDocumento.descripcion}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.tipoDocumento?.invalid && (formSolicitante.controls.tipoDocumento.touched)">El tipo de documento es requerido</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Nombres</label>
+        <div class="col-sm-4">
+          <!--<input formControlName="nombres"  class="form-control" type="text" [(ngModel)]="solicitante.nombres" name="nombres" [ngClass]="{'error' : !validarNombres()}">-->
+          <input  class="form-control" type="text" [(ngModel)]="solicitante.nombres" name="nombres" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.nombres?.invalid && (formSolicitante.controls.nombres.touched)">El nombre es requerido</div>
+        </div>
+
+
+        <label class="col-sm-2 col-form-label">Apellidos</label>
+        <div class="col-sm-4">
+          <!--<input formControlName="apellidos" class="form-control" type="text" [(ngModel)]="solicitante.apellidos" name="apellidos" [ngClass]="{'error' : !validarApellidos()}">-->
+          <input class="form-control" type="text" [(ngModel)]="solicitante.apellidos" name="apellidos" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.apellidos?.invalid && (formSolicitante.controls.apellidos.touched)">El apellido es requerido</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Dirección</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" [(ngModel)]="solicitante.direccion" name="direccion" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.direccion?.invalid && (formSolicitante.controls.direccion.touched)">La dirección es requerida</div>
+        </div>
+
+        <label class="col-sm-2 col-form-label">Teléfono</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" [(ngModel)]="solicitante.telefono" name="telefono" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.telefono?.invalid && (formSolicitante.controls.telefono.touched)">El teléfono es requerido</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Género</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoGenero" name="genero" required>
+            <option *ngFor="let genero of generos" [ngValue]="genero.id">{{genero.descripcion}}</option>
+          </select>
+        </div>
+        <label class="col-sm-2 col-form-label">Estrato</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" [(ngModel)]="solicitante.estrato" name="estrato" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.estrato?.invalid && (formSolicitante.controls.estrato.touched)">El estrato es requerido</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Tipo Población</label>
+        <!--<div class="col-sm-4">-->
+          <!--<select class="form-control" [(ngModel)]="selectedValue" name="tipoDocumento" required>-->
+            <!--<option *ngFor="let tipoDocumento of tipoDocumentos" [ngValue]="tipoDocumento.id">{{tipoDocumento.descripcion}}</option>-->
+          <!--</select>-->
+        <!--</div>-->
+        <!--<div class="col-sm-4">-->
+          <!--<input class="form-control" type="text" [(ngModel)]="solicitante.tipoPoblacion" name="telefono" required>-->
+          <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.tipoPoblacion?.invalid && (formSolicitante.controls.tipoPoblacion.touched)">El tipo de población es requerido</div>-->
+        <!--</div>-->
+
+        <div class="col-sm-4">
+        <select class="form-control" [(ngModel)]="valorSeleccionadoTipoPoblacion" name="tipoPoblacion" required>
+        <option *ngFor="let tipoPoblacion of tiposPoblacion" [ngValue]="tipoPoblacion.id">{{tipoPoblacion.descripcion}}</option>
+        </select>
+        </div>
+
+        <label class="col-sm-2 col-form-label">Fecha Nacimiento</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="date" [(ngModel)]="solicitante.fechaNacimiento" name="fechaNacimiento" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.fechaNacimiento?.invalid && (formSolicitante.controls.fechaNacimiento.touched)">La fecha de nacimiento es requerida</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Pais Nacimiento</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoPaisNacimiento" name="paisNacimiento" required>
+            <option *ngFor="let pais of paises" [ngValue]="pais.id">{{pais.nombre}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.paisNacimiento?.invalid && (formSolicitante.controls.paisNacimiento.touched)">El pais de nacimiento es requerido</div>
+        </div>
+
+        <label class="col-sm-2 col-form-label">Departamento  Nacimiento</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoDepartamentoNacimiento" name="departamentoNacimiento" required>
+            <option *ngFor="let departamento of departamentos" [ngValue]="departamento.id">{{departamento.descripcion}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.departamentoNacimiento?.invalid && (formSolicitante.controls.departamentoNacimiento.touched)">El departamento de nacimiento es requerido</div>
+        </div>
+
+        </div>
+      </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Ciudad Nacimiento</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoCiudadNacimiento" name="paisResidencia" required>
+            <option *ngFor="let municipio of municipios" [ngValue]="municipio.id">{{municipio.descripcion}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Pais Residencia</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoPaisResidencia" name="paisResidencia">
+            <option *ngFor="let pais of paises" [ngValue]="pais.id">{{pais.nombre}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.paisResidencia?.invalid && (formSolicitante.controls.paisResidencia.touched)">El pais de residencia es requerido</div>
+        </div>
+
+        <label class="col-sm-2 col-form-label">Departamento  Residencia</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoDepartamentoResidencia" name="departamentoResidencia">
+            <option *ngFor="let departamento of departamentos" [ngValue]="departamento.id">{{departamento.descripcion}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.departamentoResidencia?.invalid && (formSolicitante.controls.departamentoResidencia.touched)">El departamento de nacimiento es requerido</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Ciudad Residencia</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoCiudadResidencia" name="municipioResidencia">
+            <option *ngFor="let municipio of municipios" [ngValue]="municipio.id">{{municipio.descripcion}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <h4>Experiencia Laboral</h4>
+  <hr class="sep-tt">
+  <div class="container">
+    <div class="row top-buffer" >
+      <button type="button" class="btn btn-primary pull-right" modal-trigger>Agregar Experiencia Laboral</button>
+    </div>
+
+  </div>
+
+  <!--<button type="submit" class="btn btn-primary">Crear</button>-->
+  <span (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false"><button type="submit" class="btn btn-primary" [disabled]="formSolicitante.invalid" >Crear</button></span>
+  <a class="btn btn-secondary" [routerLink]="['/listado-solicitante']" role="button">Cancelar</a>
+
+  <!--Modal-->
+  <simple-modal title="Agregar Experiencia Laboral">
+    <h4>Experiencia Laboral</h4>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6">
+          <label class="col-sm-2 col-form-label">Nombre Empresa</label>
+          <div class="col-sm-4">
+            <input  class="form-control" type="text">
+            <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.nit?.invalid && (formOferente.controls.nit?.touched)">El número NIT es requerido</div>-->
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3 hidden-xs">
+          <label class="col-sm-2 col-form-label">Fecha Inicio</label>
+          <div class="col-sm-4">
+            <input class="form-control" type="date">
+            <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.nombre?.invalid && (formOferente.controls.nombre?.touched)">El nombre es requerido</div>-->
+          </div>
+        </div>
+        <div class="col-md-3 hidden-xs hidden-sm">
+          <label class="col-sm-2 col-form-label">Fecha Fin</label>
+          <div class="col-sm-4">
+            <input class="form-control" type="date">
+            <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.nombre?.invalid && (formOferente.controls.nombre?.touched)">El nombre es requerido</div>-->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <label class="col-sm-2">Cargo</label>
+          <div class="col-sm-4">
+            <input class="form-control" type="text">
+            <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.contrasenia?.invalid && (formSolicitante.controls.contrasenia.touched)">La contraseña es requerida</div>-->
+          </div>
+        </div>
+      </div>
+      <div>
+
+      </div>
+    </div>
+  </simple-modal>
+
+
+  <!--Modal-->
+
+</form>

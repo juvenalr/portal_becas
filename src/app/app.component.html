@@ -1,0 +1,29 @@
+<div class="container">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Portal de Becas</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li *ngFor="let menu of menus"><a href="{{menu.ruta}}">{{menu.nombre_menu}}</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li *ngIf="perfil==null"><a href="solicitante/formulario-solicitante"><span class="glyphicon glyphicon-user"></span> Registrarse</a></li>
+        <li *ngIf="perfil==null"><a href="login-becas"><span class="glyphicon glyphicon-log-in"></span> Iniciar Sesión</a></li>
+        <li *ngIf="perfil!=null"><a href="login-becas" (click) = "cerrarSesion()"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesion</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="jumbotron">
+    <router-outlet></router-outlet>
+    <br>
+    <br>
+    <footer>
+      <div class="gr-container">
+          2017 | ECOS  | CraftTech
+      </div>
+
+    </footer>
+
+  </div>
+</div>

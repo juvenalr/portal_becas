@@ -1,0 +1,20 @@
+<form #formDetalleOfertaOferente="ngForm" class="form-horizontal">
+  <app-detalle-oferta [detalleOferta]="detalleOferta" ></app-detalle-oferta>
+
+  <div class="top-buffer">
+    <button class="btn btn-primary" (click)="consultarEtapasOferta(detalleOferta.id)">
+      <span class="glyphicon glyphicon-search"></span> Ver Etapas
+    </button>
+  </div>
+
+  <hr class="sep-tt top-buffer">
+
+  <div class="top-buffer">
+    <!--<button class="btn btn-primary" (click)="eliminarOferta()">-->
+      <!--<span class="glyphicon glyphicon-pencil"></span>-->
+      <!--Eliminar a Oferta-->
+    <!--</button>-->
+    <a class="btn btn-primary" [routerLink]="['/oferta/consulta-oferta-oferente']" role="button"><span
+      class="glyphicon glyphicon-menu-left"></span>Atrás</a>
+  </div>
+</form>

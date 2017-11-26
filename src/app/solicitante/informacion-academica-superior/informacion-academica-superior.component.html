@@ -1,0 +1,134 @@
+<simple-modal title="Agregar Información Académica Superior" elementId="informacionAcademicaSuperior">
+  <div class="container top-buffer">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Institución</label>
+            <div class="col-sm-5">
+              <select class="form-control" [(ngModel)]="informacionAcademicaSuperior.id_institucion_academica_superior" name="institucionEducacionSuperior" required id="institucionEducacionSuperior">
+                <option value="0">-- Seleccione --</option>
+                <option *ngFor="let institucionEducacionSuperior of institucionesEducacionSuperior" [ngValue]="institucionEducacionSuperior.id">{{institucionEducacionSuperior.nombre}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Tipo Programa</label>
+            <!--<label class="col-sm-4 col-form-label" >Fecha Inicio</label>-->
+            <div class="col-sm-5">
+              <input class="form-control" type="text" [(ngModel)]="informacionAcademicaSuperior.tipo_programa">
+              <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.nombre?.invalid && (formOferente.controls.nombre?.touched)">El nombre es requerido</div>-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Año Inicio</label>
+            <!--<label class="col-sm-4 col-form-label" >Fecha Inicio</label>-->
+            <div class="col-sm-5">
+              <input class="form-control" type="number" [(ngModel)]="informacionAcademicaSuperior.ano_inicio">
+              <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.nombre?.invalid && (formOferente.controls.nombre?.touched)">El nombre es requerido</div>-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Año Fin</label>
+            <div class="col-sm-5">
+              <input class="form-control" type="number" [(ngModel)]="informacionAcademicaSuperior.ano_fin">
+              <!--<input class="form-control" type="date" >-->
+              <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.nombre?.invalid && (formOferente.controls.nombre?.touched)">El nombre es requerido</div>-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Fecha Graduación</label>
+            <div class="col-sm-5">
+              <!--<input class="form-control" type="date" [(ngModel)]="informacionAcademicaSuperior.fecha_grado">-->
+              <input class="form-control" type="text" [(ngModel)]="informacionAcademicaSuperior.fecha_grado" name="fecha_grado" bsDatepicker placeholder="Seleccione una fecha...">
+              <!--<input class="form-control" type="text" [(ngModel)]="cargo">-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Nombre Programa</label>
+            <div class="col-sm-5">
+              <input class="form-control" type="text" [(ngModel)]="informacionAcademicaSuperior.nombre_programa">
+              <!--<input class="form-control" type="text" [(ngModel)]="cargo">-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Semestres Programa</label>
+            <div class="col-sm-5 checkbox">
+              <input class="form-control" type="number" [(ngModel)]="informacionAcademicaSuperior.semestres_programa">
+              <!--<input class="form-control" type="text" [(ngModel)]="cargo">-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Semestres Cursados
+            </label>
+            <div class="col-sm-5">
+              <input class="form-control" type="number" [(ngModel)]="informacionAcademicaSuperior.semestres_cursados">
+              <!--<input class="form-control" type="text" [(ngModel)]="cargo">-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Créditos
+            </label>
+            <div class="col-sm-5">
+              <input class="form-control" type="number" [(ngModel)]="informacionAcademicaSuperior.cantidad_creditos">
+              <!--<input class="form-control" type="text" [(ngModel)]="cargo">-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Titulo Obtenido</label>
+            <div class="col-sm-5 checkbox">
+              <input class="form-control" type="text" [(ngModel)]="informacionAcademicaSuperior.titulo_obtenido">
+              <!--<input class="form-control" type="text" [(ngModel)]="cargo">-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Regstro Calificado</label>
+            <div class="col-sm-5 checkbox">
+              <input type="checkbox" [(ngModel)]="informacionAcademicaSuperior.registro_calificado">
+              <!--<input class="form-control" type="text" [(ngModel)]="cargo">-->
+            </div>
+          </div>
+        </div>
+
+
+        <div class="top-buffer">
+          <!--<input type="button" class="btn btn-secondary" />-->
+          <button type="button" class="btn btn-primary" (click)="agregarInformacionAcademicaSuperior()"><span class="glyphicon glyphicon-ok"></span> Agregar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</simple-modal>

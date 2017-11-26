@@ -1,0 +1,136 @@
+<form #formOferente="ngForm"  class="form-horizontal" (ngSubmit)="crearOferente(formOferente.value)">
+  <h3>Creación de Cuenta : Oferente </h3>
+  <h4>Datos de Usuario</h4>
+  <hr class="sep-tt">
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-2">Usuario</label>
+        <div class="col-sm-4">
+          <!--<input id="login" required class="form-control" type="text" [(ngModel)]="oferente.usuario.login" name="login" id="login">-->
+          <input id="login" required class="form-control" type="text"  name="login" id="login" [(ngModel)]="login">
+          <div class="form-control alert-danger" *ngIf="formOferente.controls.login?.invalid && (formOferente.controls.login?.touched)">El nombre de usuario es requerido</div>
+
+        </div>
+        <label class="col-sm-2">Correo Electrónico</label>
+        <div class="col- col-sm-4">
+          <input class="form-control" type="email" [(ngModel)]="correoElectronico" name="correoElectronico" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"  placeholder="abc@dominio.com">
+          <div class="md-errors-spacer" [hidden]="formOferente.controls.correoElectronico?.valid || formOferente.controls.correoElectronico?.untouched">
+            <div  *ngIf="formOferente.controls.correoElectronico?.errors && formOferente.controls.correoElectronico.errors.required">
+              <div class="form-control alert-danger">El correo electrónico es requerido</div>
+            </div>
+            <div  *ngIf="formOferente.controls.correoElectronico?.errors && formOferente.controls.correoElectronico.errors.pattern">
+              <div class="form-control alert-danger">El correo electrónico es inválido</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--<div class="row">-->
+      <!--<div class="form-group">-->
+        <!--<label class="col-sm-2">Contraseña</label>-->
+        <!--<div class="col-sm-4">          -->
+          <!--<input class="form-control" type="text" (ngModel)="contrasena" name="contrasena" id="contrasena" required>-->
+          <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.contrasena?.invalid && (formOferente.controls.contrasena?.touched)">La contraseña es requerida</div>-->
+        <!--</div>-->
+
+        <!--<label class="col-sm-2">Confirmar Contraseña</label>-->
+        <!--<div class="col-sm-4">          -->
+          <!--<input class="form-control" type="text"  name="confirmarcontrasena" required>-->
+          <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.confirmarcontrasena?.invalid && (formOferente.controls.confirmarcontrasena?.touched)">La confirmación de la contraseña es requerida</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <div class="row">
+      <div class="form-group" [formGroup]="administradorForm">
+        <label class="col-sm-2">Contraseña</label>
+        <div class="col-sm-4">
+          <input formControlName="contrasena" class="form-control" type="text" (ngModel)="contrasena" name="contrasena" id="contrasena">
+          <div *ngIf="!validarContrasenia()" class="form-control alert-danger">
+            <em>Es requerido</em>
+          </div>
+        </div>
+        <label class="col-sm-2">Confirmar Contraseña</label>
+        <div class="col-sm-4">
+          <input formControlName="confirmarcontrasena" id="confirmarcontrasena" class="form-control" type="text" name="confirmarcontrasena">
+          <div *ngIf="!validarConfirmacionContrasenia() || !validarMismaContrasenia()" class="form-control alert-danger">
+            <em *ngIf="!validarConfirmacionContrasenia()">Es requerido</em>
+            <em *ngIf="!validarMismaContrasenia() && validarConfirmacionContrasenia()">
+              La contraseña no coincide</em>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <br>
+
+
+  <h4>Datos Oferente</h4>
+  <hr class="sep-tt">
+
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">NIT</label>
+        <div class="col-sm-4">
+          <input  class="form-control" type="text" (ngModel)="nit" name="nit" id="nit" required>
+          <div class="form-control alert-danger" *ngIf="formOferente.controls.nit?.invalid && (formOferente.controls.nit?.touched)">El número NIT es requerido</div>
+        </div>
+
+        <label class="col-sm-2 col-form-label">Nombre o Razón Social</label>
+        <div class="col-sm-4">
+          <input  class="form-control" type="text" (ngModel)="nombre" name="nombre" id="nombre" required>
+          <div class="form-control alert-danger" *ngIf="formOferente.controls.nombre?.invalid && (formOferente.controls.nombre?.touched)">El nombre es requerido</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Pais</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleecionadoPais" name="pais" required>
+            <option value="0">-- Seleccione --</option>
+            <option *ngFor="let pais of paises" [ngValue]="pais.id_pais">{{pais.nombre}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="formOferente.controls.pais?.invalid && (formOferente.controls.pais?.touched)">El pais de nacimiento es requerido</div>
+        </div>
+
+        <label class="col-sm-2 col-form-label">Tipo Entidad</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoTipoEntidad" name="tipoEntidad" required>
+            <option value="0">-- Seleccione --</option>
+            <option *ngFor="let tipoEntidad of tipoEntidades" [ngValue]="tipoEntidad.id">{{tipoEntidad.nombre}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="formOferente.controls.tipoEntidad?.invalid && (formOferente.controls.tipoEntidad?.touched)">El tipo de entidad es requerido</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Descripción</label>
+        <div class="col-sm-10">
+          <textarea rows="5"  class="form-control" type="text" (ngModel)="descripcion" name="descripcion" required></textarea>
+          <div class="form-control alert-danger" *ngIf="formOferente.controls.descripcion?.invalid && (formOferente.controls.descripcion?.touched)">La descripción es requerida</div>
+        </div>
+      </div>
+
+      <span (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false"><button type="submit" class="btn btn-primary" [disabled]="formOferente.invalid" >Crear</button></span>
+      <a class="btn btn-secondary" [routerLink]="['/listado-solicitante']" role="button">Cancelar</a>
+
+
+    </div>
+  </div>
+
+
+  <br>
+</form>
+

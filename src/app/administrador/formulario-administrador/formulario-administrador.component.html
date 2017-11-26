@@ -1,0 +1,139 @@
+<form #formRegistroAdministrador="ngForm" class="form-horizontal" (ngSubmit)="crearAdministrador(formRegistroAdministrador.value)">
+  <h3>Creación de Cuenta : Administrador </h3>
+  <h4>Datos de Usuario</h4>
+  <hr class="sep-tt">
+  <div class="container">
+
+    <br>
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-2">Usuario</label>
+        <div class="col-sm-4">
+          <input id="username" (ngModel)="username" required class="form-control" type="text" name="username">
+          <div *ngIf="formRegistroAdministrador.controls.username?.invalid
+            && formRegistroAdministrador.controls.username?.touched" class="form-control alert-danger">
+            <em>Es requerido</em>
+          </div>
+        </div>
+        <label class="col-sm-2">Correo Electrónico</label>
+        <div class="col- col-sm-4">
+          <input id="correoElectronico" class="form-control" type="email" [(ngModel)]="correoElectronico" name="correoElectronico"
+            required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+          <div *ngIf="formRegistroAdministrador.controls.correoElectronico?.invalid
+            && formRegistroAdministrador.controls.correoElectronico?.touched" class="form-control alert-danger">
+            <em *ngIf="formRegistroAdministrador.controls.correoElectronico?.invalid
+            && formRegistroAdministrador.controls.correoElectronico?.touched">Debe ingresar un correo</em>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group" [formGroup]="administradorForm">
+        <label class="col-sm-2">Contraseña</label>
+        <div class="col-sm-4">
+          <input formControlName="contrasena" class="form-control" type="text" (ngModel)="contrasena" name="contrasena" id="contrasena">
+          <div *ngIf="!validarContrasenia()" class="form-control alert-danger">
+            <em>Es requerido</em>
+          </div>
+        </div>
+        <label class="col-sm-2">Confirmar Contraseña</label>
+        <div class="col-sm-4">
+          <input formControlName="confirmarcontrasena" id="confirmarcontrasena" class="form-control" type="text" name="confirmarcontrasena">
+          <div *ngIf="!validarConfirmacionContrasenia() || !validarMismaContrasenia()" class="form-control alert-danger">
+            <em *ngIf="!validarConfirmacionContrasenia()">Es requerido</em>
+            <em *ngIf="!validarMismaContrasenia() && validarConfirmacionContrasenia()">
+              La contraseña no coincide</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <h4>Datos Administrador</h4>
+  <hr class="sep-tt">
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Nombre</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" (ngModel)="nombre" name="nombre" id="nombre" required>
+          <div *ngIf="formRegistroAdministrador.controls.nombre?.invalid
+          && formRegistroAdministrador.controls.nombre?.touched" class="form-control alert-danger">
+          <em>Es requerido</em>
+        </div>
+        </div>
+        <label class="col-sm-2 col-form-label">Apellidos</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" (ngModel)="apellidos" name="apellidos" id="apellidos" required>
+          <div *ngIf="formRegistroAdministrador.controls.apellidos?.invalid
+          && formRegistroAdministrador.controls.apellidos?.touched" class="form-control alert-danger">
+          <em>Es requerido</em>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Tipo de documento</label>
+        <div class="col-sm-4">
+          <select class="form-control" [ngModel]="valorSeleccionadoTipoDocumento" id="id_tipo_documento"
+           name="id_tipo_documento" #selectedTechs="ngModel" required>
+           <option [value]="0">-- Selecione --</option>
+            <option *ngFor="let tipoDocumento of tiposDocumento" [ngValue]="tipoDocumento.id_tipo_documento">{{tipoDocumento.descripcion}}
+            </option>
+          </select>
+          <div *ngIf="selectedTechs.invalid" class="form-control alert-danger">
+          <em>Es requerido</em>
+        </div>
+        </div>
+        <label class="col-sm-2 col-form-label">Número de documento</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" (ngModel)="numero_documento" name="numero_documento" id="numero_documento" required>
+          <div *ngIf="formRegistroAdministrador.controls.numero_documento?.invalid
+          && formRegistroAdministrador.controls.numero_documento?.touched" class="form-control alert-danger">
+          <em>Es requerido</em>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label class="col-sm-2 col-form-label">Sede</label>
+      <div class="col-sm-4">
+        <input class="form-control" type="text" (ngModel)="sede" name="sede" id="sede" required>
+        <div *ngIf="formRegistroAdministrador.controls.sede?.invalid
+        && formRegistroAdministrador.controls.sede?.touched" class="form-control alert-danger">
+        <em>Es requerido</em>
+      </div>
+      </div>
+      <label class="col-sm-2 col-form-label">Cargo</label>
+      <div class="col-sm-4">
+        <input class="form-control" type="text" (ngModel)="cargo" name="cargo" id="cargo" required>
+        <div *ngIf="formRegistroAdministrador.controls.cargo?.invalid
+        && formRegistroAdministrador.controls.cargo?.touched" class="form-control alert-danger">
+        <em>Es requerido</em>
+      </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <label class="col-sm-2 col-form-label">Código Activación</label>
+      <div class="col-sm-4">
+        <input class="form-control" type="text" (ngModel)="codigo_activacion" name="codigo_activacion" id="codigo_activacion" required>
+        <div *ngIf="formRegistroAdministrador.controls.codigo_activacion?.invalid
+        && formRegistroAdministrador.controls.codigo_activacion?.touched" class="form-control alert-danger">
+        <em>Es requerido</em>
+      </div>
+      </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" [disabled]="administradorForm.invalid || formRegistroAdministrador.invalid">Crear</button>
+
+    <a class="btn btn-secondary" [routerLink]="['/listado-solicitante']" role="button">Cancelar</a>
+  </div>
+  <br>
+</form>

@@ -1,0 +1,63 @@
+
+<simple-modal title="Editar Experiencia Laboral">
+
+  <div class="container top-buffer">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Nombre Etapa</label>
+            <div class="col-sm-5">
+              <input  class="form-control" type="text" [(ngModel)]="etapa.nombre" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Descripción</label>
+            <div class="col-sm-5">
+              <input  class="form-control" type="text" [(ngModel)]="etapa.descripcion" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Fecha Inicio</label>
+            <div class="col-sm-5">
+              <input class="form-control" type="date" [(ngModel)]="etapa.fecha_inicio">
+              <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.nombre?.invalid && (formOferente.controls.nombre?.touched)">El nombre es requerido</div>-->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Fecha Fin</label>
+            <div class="col-sm-5">
+              <input class="form-control" type="date"  [(ngModel)]="etapa.fecha_fin">
+              <!--<input class="form-control" type="date" >-->
+              <!--<div class="form-control alert-danger" *ngIf="formOferente.controls.nombre?.invalid && (formOferente.controls.nombre?.touched)">El nombre es requerido</div>-->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="top-buffer-sm">
+            <label class="col-sm-4 col-form-label">Cantidad a Seleccionar</label>
+            <div class="col-sm-5">
+              <input class="form-control" type="text" [(ngModel)]="etapa.cantidad_a_seleccionar">
+              <!--<input class="form-control" type="text" [(ngModel)]="cargo">-->
+            </div>
+          </div>
+        </div>
+
+        <div class="top-buffer">
+          <button type="button" class="btn btn-primary" (click)="actualizarEtapa()" >Actualizar Etapa</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</simple-modal>

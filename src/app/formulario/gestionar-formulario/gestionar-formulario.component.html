@@ -1,0 +1,169 @@
+<form [formGroup]="formularioDinamico" class="form-horizontal" novalidate autocomplete="off"
+      (ngSubmit)="guardarFormulario()">
+
+    <!--<div formArrayName="controlesDinamicos"-->
+       <!--*ngFor="let controlDinamico of formularioDinamico.controls.controlesDinamicos.controls; let i = index">-->
+    <!--<div class="row">-->
+      <!--<div class="form-group">-->
+        <!--<input type="text" class="form-control" id="{{i}}" formControlName="{{i}}"/>-->
+        <!--<div class="help-block" *ngIf="(formularioDinamico.controls.controlesDinamicos.controls[i].touched || formularioDinamico.controls.controlesDinamicos.controls[i].dirty) &&-->
+                                                         <!--formularioDinamico.controls.controlesDinamicos.controls[i].errors"-->
+             <!--[ngClass]="{'error': formularioDinamico.controls.controlesDinamicos.controls[i].touched  && !formularioDinamico.controls.controlesDinamicos.controls[i].valid }">-->
+          <!--<span *ngIf="formularioDinamico.controls.controlesDinamicos.controls[i].errors.required">-->
+                                <!--El campo es requerido.-->
+                            <!--</span>-->
+          <!--<span *ngIf="formularioDinamico.controls.controlesDinamicos.controls[i].errors.maxlength">-->
+                                <!--El campo excede la longitud máxima.-->
+                            <!--</span>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<option *ngFor="let tipoEntidad of tipoEntidades" [ngValue]="tipoEntidad.id">{{tipoEntidad.nombre}}</option>-->
+
+  <div formArrayName="controlesDinamicos"
+       *ngFor="let itemLista of listaItems; let i = index">
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-2 col-form-label">{{itemLista?.descripcion}}</label>
+        <div [ngSwitch]="itemLista.idTipoControl" class="col-sm-4">
+
+          <!--Caja de Texto-->
+          <div *ngSwitchCase="4">
+            <input class="form-control" type="text" formControlName="{{i}}" id="{{i}}"/>
+            <div class="form-control" *ngIf="(formularioDinamico.controls.controlesDinamicos.controls[i].touched || formularioDinamico.controls.controlesDinamicos.controls[i].dirty) && formularioDinamico.controls.controlesDinamicos.controls[i].errors"
+                 [ngClass]="{'alert-danger': formularioDinamico.controls.controlesDinamicos.controls[i].touched  && !formularioDinamico.controls.controlesDinamicos.controls[i].valid }">
+              <span *ngIf="formularioDinamico.controls.controlesDinamicos.controls[i].errors.required">El campo es requerido.</span>
+              <span *ngIf="formularioDinamico.controls.controlesDinamicos.controls[i].errors.maxlength">El campo excede la longitud máxima.({{itemLista.tamanoMaximo}} caracteres ).</span>
+            </div>
+          </div>
+          <!--Caja de Texto-->
+
+          <!--Lista Desplegable-->
+          <div *ngSwitchCase="5">
+            <select class="form-control" formControlName="{{i}}" id="{{i}}">
+              <option>-- Seleccione --</option>
+              <option *ngFor="let respuesta of itemLista?.listaRespuestas">{{respuesta.respuesta}}</option>
+            </select>
+            <div class="form-control" *ngIf="(formularioDinamico.controls.controlesDinamicos.controls[i].touched || formularioDinamico.controls.controlesDinamicos.controls[i].dirty) && formularioDinamico.controls.controlesDinamicos.controls[i].errors"
+                 [ngClass]="{'alert-danger': formularioDinamico.controls.controlesDinamicos.controls[i].touched  && !formularioDinamico.controls.controlesDinamicos.controls[i].valid }">
+              <span *ngIf="formularioDinamico.controls.controlesDinamicos.controls[i].errors.required">El campo es requerido.</span>
+            </div>
+          </div>
+          <!--Lista Desplegable-->
+
+          <!--Lista Radio Button-->
+          <div *ngSwitchCase="6">
+              <div class="row" *ngFor="let respuesta of itemLista.listaRespuestas">
+                <div class="form-group">
+                  <div class="radio">
+                    <label class="control-label"><input type="radio" value="{{respuesta.respuesta}}" formControlName="{{i}}" id="{{i}}" name="{{i}}">{{respuesta.respuesta}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-control" *ngIf="(formularioDinamico.controls.controlesDinamicos.controls[i].touched || formularioDinamico.controls.controlesDinamicos.controls[i].dirty) && formularioDinamico.controls.controlesDinamicos.controls[i].errors"
+                   [ngClass]="{'alert-danger': formularioDinamico.controls.controlesDinamicos.controls[i].touched  && !formularioDinamico.controls.controlesDinamicos.controls[i].valid }">
+                  <span *ngIf="formularioDinamico.controls.controlesDinamicos.controls[i].errors.required">El campo es requerido.</span>
+              </div>
+          </div>
+          <!--Lista Radio Button-->
+
+          <!--Lista Check Boxes-->
+          <div *ngSwitchCase="7" [formArrayName]="i">
+          <!--<div *ngSwitchCase="7" [formGroupName]="i">-->
+            <div class="row" *ngFor="let respuesta of itemLista.listaRespuestas; let j = index">
+              <div class="form-group">
+                <div class="checkbox">
+                  <label class="control-label"><input type="checkbox" value="{{respuesta.respuesta}}" formControlName="{{j}}" >{{respuesta.respuesta}}</label>
+                  <!--<label class="control-label"><input type="checkbox" value="{{respuesta.respuesta}}" formControlName="control_{{i}}_opcion_{{j}}" id="control_{{i}}_opcion_{{j}}" name="control_{{i}}_opcion_{{j}}" >{{respuesta.respuesta}}</label>-->
+                </div>
+              </div>
+            </div>
+            <div class="form-control" *ngIf="(formularioDinamico.controls.controlesDinamicos.controls[i].touched || formularioDinamico.controls.controlesDinamicos.controls[i].dirty) && formularioDinamico.controls.controlesDinamicos.controls[i].errors"
+                 [ngClass]="{'alert-danger': formularioDinamico.controls.controlesDinamicos.controls[i].touched  && !formularioDinamico.controls.controlesDinamicos.controls[i].valid }">
+              <span>El campo es requerido</span>
+            </div>
+          </div>
+          <!--Lista Radio Button-->
+
+          <!--Input File-->
+          <div *ngSwitchCase="8">
+            <div class="form-control">
+              <input type="file" formControlName="{{i}}" id="{{i}}" (change)="archivoSeleccionado($event, i)" />
+              <div class="form-control" *ngIf="(formularioDinamico.controls.controlesDinamicos.controls[i].touched || formularioDinamico.controls.controlesDinamicos.controls[i].dirty) && formularioDinamico.controls.controlesDinamicos.controls[i].errors"
+                   [ngClass]="{'alert-danger': formularioDinamico.controls.controlesDinamicos.controls[i].touched  && !formularioDinamico.controls.controlesDinamicos.controls[i].valid }">
+                <span *ngIf="formularioDinamico.controls.controlesDinamicos.controls[i].errors.required">El campo es requerido.</span>
+              </div>
+            </div>
+          </div>
+          <!--Input File-->
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Gestionar Formulario</div>
+    <div class="panel-body">
+      <td *ngIf="listaItems != undefined  && listaItems.length > 0">
+
+        <!--<table>-->
+        <!--<div formArrayName="controlesDinamicos">-->
+        <!--<tr *ngFor="let itemLista of listaItems; let i = index" [attr.data-index]="i">-->
+        <!--<td *ngIf="itemLista?.idTipoControl < 4" colspan="3">-->
+        <!--<label>{{itemLista?.descripcion}}</label>-->
+        <!--</td>-->
+        <!--<td *ngIf="itemLista?.idTipoControl >= 4">-->
+        <!--<label>{{itemLista?.descripcion}}</label>-->
+        <!--</td>-->
+        <!--<td>-->
+        <!--<div *ngIf="itemLista?.idTipoControl == 4">-->
+        <!--<input *ngIf="itemLista?.requerido" form type="text" formControlName="item_{{i}}_valor" name="item_{{i}}_valor" required>-->
+        <!--<input *ngIf="!itemLista?.requerido" type="text" formControlName="item_{{i}}_valor" name="item_{{i}}_valor">-->
+        <!--</div>-->
+        <!--<div *ngIf="itemLista?.idTipoControl == 5">-->
+        <!--<select class="form-control" >-->
+        <!--<option>&#45;&#45; Seleccione &#45;&#45;</option>-->
+        <!--<option *ngFor="let respuesta of itemLista?.listaRespuestas">{{respuesta.respuesta}}</option>-->
+        <!--</select>-->
+        <!--</div>-->
+        <!--<div *ngIf="itemLista?.idTipoControl == 6">-->
+        <!--&lt;!&ndash;<div class="row" *ngFor="let respuesta of itemLista.listaRespuestas">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label class="col-sm-2"><input type="radio" name="options">{{respuesta.respuesta}}</label>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<label *ngFor="let respuesta of itemLista.listaRespuestas">&ndash;&gt;-->
+        <!--<label *ngFor="let respuesta of itemLista.listaRespuestas">-->
+        <!--<input type="radio" name="options">{{respuesta.respuesta}}</label>-->
+        <!--</div>-->
+        <!--<div *ngIf="itemLista?.idTipoControl == 7">-->
+        <!--<label *ngFor="let respuesta of itemLista.listaRespuestas">-->
+        <!--<input type="checkbox" name="options">{{respuesta.respuesta}}</label><br/>-->
+        <!--</div>-->
+        <!--<div *ngIf="itemLista?.idTipoControl == 8">-->
+        <!--<input type="file">-->
+        <!--</div>-->
+        <!--</td>-->
+        <!--</tr>-->
+        <!--</div>-->
+        <!--</table>-->
+
+
+    </div>
+  </div>
+
+  <button class="btn btn-primary" type="submit">Guardar</button>
+
+  {{ formularioDinamico.value | json }}
+
+  <!--{{ formularioDinamico.get('0')?.valid | json  }}-->
+
+  <!--{{ formularioDinamico.get('0')?.touched | json  }}-->
+  <!--{{ formularioDinamico.get('0')?.dirty | json  }}-->
+  <!--{{ formularioDinamico.get('0')?.valid | json  }}-->
+  <!--{{ formularioDinamico.get('0')?.errors | json  }}-->
+</form>

@@ -1,0 +1,213 @@
+<form #formCrearFormulario="ngForm" class="form-horizontal">
+  <h3>{{titulo}}</h3>
+  <div class="panel panel-default">
+    <div class="panel-heading"><span class="glyphicon glyphicon-info-sign"></span> Información Básica</div>
+    <div class="panel-body">
+      <div class="container">
+        <div class="row">
+          <div class="form-group">
+            <label class="col-sm-2">Nombre</label>
+            <div class="col-sm-4">
+              <input class="form-control" type="text" [(ngModel)]="datosFormulario.nombre" name="formularioNombre" required>
+              <div class="form-control alert-danger"
+                   *ngIf="formCrearFormulario.controls.formularioNombre?.invalid && (formCrearFormulario.controls.formularioNombre?.touched)">
+                El nombre del formulario es requerido
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label class="col-sm-2">Descripción</label>
+            <div class="col-sm-4">
+              <input class="form-control" type="text" [(ngModel)]="datosFormulario.descripcion" name="formularioDescripcion" required>
+              <div class="form-control alert-danger"
+                   *ngIf="formCrearFormulario.controls.formularioDescripcion?.invalid && (formCrearFormulario.controls.formularioDescripcion?.touched)">
+                Lsa descripción del formulario es requerida
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading"><span class="glyphicon glyphicon-wrench"></span> Definición Elementos Formulario</div>
+    <div class="panel-body">
+      <div class="container">
+        <div class="row">
+          <div class="form-group">
+            <label class="col-sm-2">Nombre Item</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" [(ngModel)]="definicionItemFormulario.nombreItem" id="nombreItem"
+                     name="nombreItem" required>
+
+              <div class="form-control alert-danger"
+                   *ngIf="formCrearFormulario.controls.nombreItem?.invalid && (formCrearFormulario.controls.nombreItem?.touched)">
+                El nombre del item es requerido
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label class="col-sm-2">Tipo de Item (Control)</label>
+            <div class="col-sm-4">
+              <select id="tipoControl" class="form-control" name="tipoControl"
+                      [(ngModel)]="definicionItemFormulario.tipoControl" required>
+                <option value="0">-- Seleccione --</option>
+                <option *ngFor="let tipoItem of listaTiposItem" [ngValue]="tipoItem.id">{{tipoItem.nombre}}</option>
+              </select>
+              <div class="form-control alert-danger"
+                   *ngIf="(formCrearFormulario.controls.tipoControl?.invalid && formCrearFormulario.controls.tipoControl.touched) || (formCrearFormulario.controls.tipoControl?.touched && definicionItemFormulario.tipoControl == 0)">
+                El criterio de búsqueda es requerido
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row"
+             *ngIf="(definicionItemFormulario.tipoControl == tiposItemEnum.listaSeleccionable) || (definicionItemFormulario.tipoControl == tiposItemEnum.listaSeleccionMultiple) || (definicionItemFormulario.tipoControl == tiposItemEnum.listaRadioButton)">
+          <div class="form-group">
+            <label class="col-sm-2">Delimitador Opciones</label>
+            <div class="col-sm-4">
+              <input class="form-control" type="text" id="tipoDelimitadorId" name="tipoDelimitador"
+                     [(ngModel)]="definicionItemFormulario.tipoDelimitador">
+            </div>
+          </div>
+        </div>
+
+        <div class="row"
+             *ngIf="(definicionItemFormulario.tipoControl == tiposItemEnum.listaSeleccionable) || (definicionItemFormulario.tipoControl == tiposItemEnum.listaSeleccionMultiple) || (definicionItemFormulario.tipoControl == tiposItemEnum.listaRadioButton)">
+          <div class="form-group">
+            <label class="col-sm-2">Opciones</label>
+            <div class="col-sm-4">
+              <input class="form-control" type="text" id="opcionesId" name="opciones"
+                     [(ngModel)]="definicionItemFormulario.opciones">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label class="col-sm-2">Campo Obligatorio (Si/No)</label>
+            <div class="col-sm-4">
+              <input type="checkbox" name="requerido" [(ngModel)]="definicionItemFormulario.requerido">
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="definicionItemFormulario.tipoControl == tiposItemEnum.textoEntrada">
+          <div class="form-group">
+            <label class="col-sm-2">Tamaño Máximo</label>
+            <div class="col-sm-4">
+              <input class="form-control" type="number" name="tamanoMaximo"
+                     [(ngModel)]="definicionItemFormulario.tamanoMaximo">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-primary" (click)="agregarItem(formCrearFormulario.value)"
+                      [disabled]="!(definicionItemFormulario.nombreItem != ''   && definicionItemFormulario.tipoControl != 0)"><span
+                class="glyphicon glyphicon-plus"></span> Agregar
+                Item
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!--<div class="row">-->
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-2"></label>-->
+        <!--<div class="col-sm-4">-->
+
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default" *ngIf="listaItems && listaItems.length">
+    <div class="panel-heading"><span class="glyphicon glyphicon-sunglasses"></span> Vista Previa</div>
+    <div class="panel-body">
+      <div class="container">
+        <div class="row" *ngFor="let itemLista of listaItems; let i = index" [attr.data-index]="i">
+          <div class="form-group">
+            <label *ngIf="(itemLista?.id_tipo_item !=  tiposItemEnum.titulo)" class="col-sm-2">
+              {{itemLista?.descripcion}}
+            </label>
+
+            <h3 *ngIf="(itemLista?.id_tipo_item ==  tiposItemEnum.titulo)" class="col-sm-5">
+              {{itemLista?.descripcion}}
+            </h3>
+
+            <div *ngIf="(itemLista?.id_tipo_item ==  tiposItemEnum.titulo)" class="col-sm-1">
+            </div>
+
+            <div *ngIf="(itemLista?.id_tipo_item ==  tiposItemEnum.etiqueta)" class="col-sm-4">
+            </div>
+
+            <div *ngIf="itemLista?.id_tipo_item ==  tiposItemEnum.textoEntrada" class="col-sm-4">
+              <input class="form-control" *ngIf="itemLista?.obligatorio" type="text" name="item_{{i}}_valor" required>
+              <input class="form-control" *ngIf="!itemLista?.obligatorio" type="text" name="item_{{i}}_valor">
+            </div>
+
+            <div *ngIf="itemLista?.id_tipo_item ==  tiposItemEnum.entradaNumerica" class="col-sm-4">
+              <input class="form-control" *ngIf="itemLista?.obligatorio" type="number" name="item_{{i}}_valor" required>
+              <input class="form-control" *ngIf="!itemLista?.obligatorio" type="number" name="item_{{i}}_valor">
+            </div>
+
+            <div *ngIf="itemLista?.id_tipo_item ==  tiposItemEnum.fecha" class="col-sm-4">
+              <input class="form-control" *ngIf="itemLista?.obligatorio" type="date" name="item_{{i}}_valor" required>
+              <input class="form-control" *ngIf="!itemLista?.obligatorio" type="date" name="item_{{i}}_valor">
+            </div>
+
+            <div *ngIf="itemLista?.id_tipo_item == tiposItemEnum.listaSeleccionable" class="col-sm-4">
+              <select class="form-control">
+                <option>-- Seleccione --</option>
+                <option *ngFor="let respuesta of itemLista?.valores_posibles">{{respuesta}}</option>
+              </select>
+            </div>
+
+            <div *ngIf="itemLista?.id_tipo_item == tiposItemEnum.listaRadioButton" class="col-sm-4">
+              <div class="radio" *ngFor="let respuesta of itemLista.valores_posibles">
+                <label><input type="radio" name="options">{{respuesta}}</label>
+              </div>
+            </div>
+
+            <div *ngIf="itemLista?.id_tipo_item == tiposItemEnum.listaSeleccionMultiple" class="col-sm-4">
+              <div class="checkbox" *ngFor="let respuesta of itemLista.valores_posibles">
+                <label><input type="checkbox" name="options">{{respuesta}}</label>
+              </div>
+
+            </div>
+
+            <div *ngIf="itemLista?.id_tipo_item == tiposItemEnum.archivo" class="col-sm-4">
+              <input class="form-control" type="file">
+            </div>
+
+            <div class="col-sm-1">
+              <button (click)="removerItemLista($event, i)" class="btn"><span
+                class="glyphicon glyphicon-remove"></span></button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button *ngIf="idFormulario == 0" type="button" class="btn btn-primary" (click)="crearFormulario()" [disabled]="!(!formCrearFormulario.invalid && listaItems && listaItems.length)"><span class="glyphicon glyphicon-ok"></span> Crear Formulario
+  </button>
+  <button *ngIf="idFormulario > 0" type="button" class="btn btn-primary" (click)="actualizarFormulario()"><span class="glyphicon glyphicon-ok"></span> Actualizar
+    Formulario
+  </button>
+  <!--<button type="button" class="btn btn-primary" (click)="borrarFormulario()"><span class="glyphicon glyphicon-menu-left"></span> Atrás</button>-->
+  <a class="btn btn-primary" [routerLink]="['/oferta/editar-etapa-oferta', idOferta, idEtapaOferta]" role="button"><span class="glyphicon glyphicon-menu-left"></span> Atrás</a>
+
+</form>
+

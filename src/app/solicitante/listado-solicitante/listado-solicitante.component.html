@@ -1,0 +1,41 @@
+<h2>Administracion de Solicitantes</h2>
+
+<!--<a class="btn btn-primary" [routerLink]="['/formulario-solicitante']" role="button">Agregar</a>-->
+
+<table class='table' *ngIf="solicitantes">
+  <thead>
+  <tr>
+    <th>Numero Documento</th>
+    <th>Tipo Documento</th>
+    <th>Nombres</th>
+    <th>Apellidos</th>
+    <th>Pais</th>
+    <th>Municipio</th>
+    <th>Direccion</th>
+    <th>Estrato</th>
+    <th>Telefono</th>
+    <th>Correo Electronico</th>
+    <th>Genero</th>
+    <!--<th>Temp. (C)</th>
+    <th>Temp. (F)</th>
+    <th>Summary</th>-->
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="table" *ngFor="let solicitante of solicitantes">
+    <!--<td><a [routerLink]="['solicitante/detalle', solicitante.id]">{{ solicitante.numeroDocumento }} </a></td>-->
+    <!--<td>{{ solicitante.tipoDocumento.descripcion }}</td>-->
+    <td>{{ solicitante.nombre }}</td>
+    <!--<td>{{ solicitante.apellidos }}</td>-->
+    <!--<td>{{ solicitante.pais.nombre }}</td>-->
+    <!--<td>{{ solicitante.municipio.descripcion }}</td>-->
+    <!--<td>{{ solicitante.direccion }}</td>-->
+    <!--<td>{{ solicitante.estrato }}</td>-->
+    <!--<td>{{ solicitante.telefono }}</td>-->
+    <td>{{ solicitante.correoElectronico }}</td>
+    <!--<td>{{ solicitante.sexo.descripcion }}</td>-->
+  </tr>
+  </tbody>
+</table>
+
+

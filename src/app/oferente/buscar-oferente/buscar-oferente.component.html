@@ -1,0 +1,111 @@
+<form #formBuscarOferente="ngForm"  class="form-horizontal" (ngSubmit)="buscarOferente(formBuscarOferente.value)">
+
+<div class="panel panel-default">
+  <div class="panel-heading"><h4>Consultar Oferente</h4></div>
+  <div class="panel-body">
+    <div class="container">
+      <div class="form-group">
+        <label class="col-sm-2">Id Oferente</label>
+        <div class="col-sm-3">
+          <input class="form-control" type="text" (ngModel)="oferente.id" id="id" name="id">
+        </div>
+        <button type="submit" class="col-sm-1 btn btn-success">Buscar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="form-group">
+    <a class="btn btn-primary">Atrás</a>
+  </div>
+</div>
+
+<div *ngIf="busquedaRealizada">
+  <div *ngIf="oferente?.correoElectronico">
+<div class="panel-heading">
+  <h3>Datos Oferente</h3>
+</div>
+<div class="panel-body">
+  <!--<h2 class="label label-success">@ViewBag.Message</h2>-->
+
+  <table class="table table-striped">
+    <tr>
+      <td class="width-columnKey">
+        <strong>Nombre</strong>
+      </td>
+      <td class="width-columnValue">
+        <span>{{ oferente?.nombre }}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Correo Electrónico</strong>
+      </td>
+      <td>
+        <span>{{ oferente?.correoElectronico}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Tipo Usuario</strong>
+      </td>
+      <td>
+        <span>{{oferente?.rol?.nombre}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Estado</strong>
+      </td>
+      <td>
+        <span>{{ oferente?.idEstadoSistema?.descripcion}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Nit</strong>
+      </td>
+      <td>
+        <span>{{oferente?.infoUsuario?.nit}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Descripción</strong>
+      </td>
+      <td>
+        <span>{{oferente?.infoUsuario?.descripcion}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Tipo entidad</strong>
+      </td>
+      <td>
+        <span>{{oferente?.infoUsuario?.tipoEntidad?.nombre}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Pais</strong>
+      </td>
+      <td>
+        <span>{{oferente?.infoUsuario?.pais?.nombre}}</span>
+      </td>
+    </tr>
+  </table>
+</div>
+  </div>
+  <div *ngIf="!oferente?.correoElectronico">
+    No se encontraron resultados asociados con la búsqueda
+    </div>
+</div>
+
+</form>
+<!--}-->
+<!--else-->
+<!--{-->
+<!--<p>No se encontraron resultados asociados a la consulta</p>-->
+<!--}-->
+
+<!--}-->

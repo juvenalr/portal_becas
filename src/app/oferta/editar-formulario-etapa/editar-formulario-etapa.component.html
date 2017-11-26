@@ -1,0 +1,133 @@
+<form #formCrearFormulario="ngForm"  class="form-horizontal" (ngSubmit)="crearFormulario(formCrearFormulario.value)">
+  <div class="panel panel-default">
+    <div class="panel-heading">Crear Formulario</div>
+    <div class="panel-body">
+      <table>
+        <tr>
+          <td>
+            Ingrese el item
+          </td>
+          <td>
+            <input type="text"  [(ngModel)]="definicionItemFormulario.nombreItem" id="nombreItemId" name="nombreItem">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tipo de respuesta
+          </td>
+          <td>
+            <select id="tipoControl" name="tipoControl" [(ngModel)]="definicionItemFormulario.tipoControl">
+              <option value="0">Seleccione</option>
+              <option *ngFor="let tipoItem of listaTiposItem" [ngValue]="tipoItem.id">{{tipoItem.nombre}}</option>
+            </select>
+          </td>
+        </tr>
+        <tr *ngIf="(definicionItemFormulario.tipoControl == tiposItemEnum.listaSeleccionable) || (definicionItemFormulario.tipoControl == tiposItemEnum.listaSeleccionMultiple) || (definicionItemFormulario.tipoControl == tiposItemEnum.listaRadioButton)">
+          <td>
+            Las opciones se delimitan con
+          </td>
+          <td>
+            <input type="text" id="tipoDelimitadorId" name="tipoDelimitador" [(ngModel)]="definicionItemFormulario.tipoDelimitador">
+          </td>
+        </tr>
+        <tr *ngIf="(definicionItemFormulario.tipoControl == tiposItemEnum.listaSeleccionable) || (definicionItemFormulario.tipoControl == tiposItemEnum.listaSeleccionMultiple) || (definicionItemFormulario.tipoControl == tiposItemEnum.listaRadioButton)">
+          <td>
+            Opciones
+          </td>
+          <td>
+            <input type="text" id="opcionesId" name="opciones" [(ngModel)]="definicionItemFormulario.opciones">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Campo Obligatorio
+          </td>
+          <td>
+            <input type="checkbox" name="requerido" [(ngModel)]="definicionItemFormulario.requerido">
+          </td>
+        </tr>
+        <tr *ngIf="definicionItemFormulario.tipoControl == tiposItemEnum.textoEntrada">
+          <td>
+            Tamaño Máximo
+          </td>
+          <td>
+            <input type="number" name="tamanoMaximo" [(ngModel)]="definicionItemFormulario.tamanoMaximo" >
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" align="left">
+            <button type="button" class="btn btn-primary" (click)="agregarItem(formCrearFormulario.value)" >Agregar Item</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <br />
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Vista Previa</div>
+    <div class="panel-body">
+      <td *ngIf="numeroItems > 0">
+        <table>
+          <tr>
+            <td>
+              <br />
+            </td>
+          </tr>
+          <tr *ngFor="let itemLista of listaItems; let i = index" [attr.data-index]="i">
+            <td *ngIf="(itemLista?.idTipoControl ==  tiposItemEnum.etiqueta)" colspan="3">
+              <label>{{itemLista?.descripcion}}</label>
+            </td>
+            <td *ngIf="itemLista?.idTipoControl >= (itemLista?.idTipoControl ==  tiposItemEnum.titulo)">
+              <h3>{{itemLista?.descripcion}}</h3>
+            </td>
+
+            <td>
+              <div *ngIf="itemLista?.idTipoControl ==  tiposItemEnum.textoEntrada">
+                <input *ngIf="itemLista?.requerido" type="text" name="item_{{i}}_valor" required>
+                <input *ngIf="!itemLista?.requerido" type="text" name="item_{{i}}_valor">
+              </div>
+
+              <div *ngIf="itemLista?.idTipoControl ==  tiposItemEnum.entradaNumerica">
+                <input *ngIf="itemLista?.requerido" type="number" name="item_{{i}}_valor" required>
+                <input *ngIf="!itemLista?.requerido" type="number" name="item_{{i}}_valor">
+              </div>
+
+              <div *ngIf="itemLista?.idTipoControl ==  tiposItemEnum.fecha">
+                <input *ngIf="itemLista?.requerido" type="date" name="item_{{i}}_valor" required>
+                <input *ngIf="!itemLista?.requerido" type="date" name="item_{{i}}_valor">
+              </div>
+
+              <div *ngIf="itemLista?.idTipoControl == tiposItemEnum.listaSeleccionable">
+                <select class="form-control" >
+                  <option>-- Seleccione --</option>
+                  <option *ngFor="let respuesta of itemLista?.listaRespuestas">{{respuesta.respuesta}}</option>
+                </select>
+              </div>
+
+              <div *ngIf="itemLista?.idTipoControl == tiposItemEnum.listaRadioButton">
+                <label *ngFor="let respuesta of itemLista.listaRespuestas">
+                  <input type="radio" name="options">{{respuesta.respuesta}}</label>
+              </div>
+
+              <div *ngIf="itemLista?.idTipoControl == tiposItemEnum.listaSeleccionMultiple">
+                <label *ngFor="let respuesta of itemLista.listaRespuestas">
+                  <input type="checkbox" name="options">{{respuesta.respuesta}}</label><br/>
+              </div>
+              <div *ngIf="itemLista?.idTipoControl == tiposItemEnum.archivo">
+                <input type="file">
+              </div>
+            </td>
+          </tr>
+        </table>
+
+
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-success">Guardar Formulario</button>
+  <button type="button" class="btn btn-danger" (click)="borrarFormulario()">Borrar formulario</button>
+</form>

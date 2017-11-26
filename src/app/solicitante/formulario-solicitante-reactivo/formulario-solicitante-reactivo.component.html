@@ -1,0 +1,422 @@
+<!--[formGroup] = "formSolicitante"-->
+<form #formSolicitante="ngForm"  class="form-horizontal" (ngSubmit)="crearSolicitante(formSolicitante.value)">
+  <h3>Creación de Cuenta : Solicitante </h3>
+  <h4>Datos de Usuario</h4>
+  <hr class="sep-tt">
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-2">Usuario</label>
+        <div class="col-sm-4">
+          <input id="login" required class="form-control" type="text" (ngModel)="solicitante.login" name="login">
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.login?.invalid && (formSolicitante.controls.login.touched)">El nombre de usuario es requerido</div>
+        </div>
+        <label class="col-sm-2">Correo Electrónico</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="email" [(ngModel)]="solicitante.usuario.correoElectronico" name="correoelectronico" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" placeholder="abc@dominio.com">
+          <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.correoelectronico?.invalid && (formSolicitante.controls.correoelectronico.touched)">El correo electrónico es requerido</div>-->
+          <div class="md-errors-spacer" [hidden]="formSolicitante.controls.correoelectronico?.valid || formSolicitante.controls.correoelectronico?.untouched">
+            <div  *ngIf="formSolicitante.controls.correoelectronico?.errors && formSolicitante.controls.correoelectronico.errors.required">
+              <div class="form-control alert-danger">El correo electrónico es requerido</div>
+            </div>
+            <div  *ngIf="formSolicitante.controls.correoelectronico?.errors && formSolicitante.controls.correoelectronico.errors.pattern">
+              <div class="form-control alert-danger">El correo electrónico es invalido</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="row">-->
+      <!--<div class="form-group">-->
+        <!--<label class="col-sm-2">Contraseña</label>-->
+        <!--<div class="col-sm-4">-->
+          <!--<input class="form-control" type="text" [(ngModel)]="solicitante.usuario.contrasenia" name="contrasenia" id="contrasenia" required>-->
+          <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.contrasenia?.invalid && (formSolicitante.controls.contrasenia.touched)">La contraseña es requerida</div>-->
+        <!--</div>-->
+
+        <!--<label class="col-sm-2">Confirmar Contraseña</label>-->
+        <!--<div class="col-sm-4">-->
+          <!--<input class="form-control" type="text"  name="confirmarcontrasenia" required>-->
+          <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.confirmarcontrasenia?.invalid && (formSolicitante.controls.confirmarcontrasenia.touched)">La confirmacion de la contraseña es requerida</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <div class="row">
+      <div class="form-group" [formGroup]="administradorForm">
+        <label class="col-sm-2">Contraseña</label>
+        <div class="col-sm-4">
+          <input formControlName="contrasena" class="form-control" type="text" (ngModel)="solicitante.usuario.contrasena" name="contrasena" id="contrasena">
+          <div *ngIf="!validarContrasenia()" class="form-control alert-danger">
+            El campo es requerido
+          </div>
+        </div>
+        <label class="col-sm-2">Confirmar Contraseña</label>
+        <div class="col-sm-4">
+          <input formControlName="confirmarcontrasena" id="confirmarcontrasena" class="form-control" type="text" name="confirmarcontrasena">
+          <div *ngIf="!validarConfirmacionContrasenia() || !validarMismaContrasenia()" class="form-control alert-danger">
+            <div *ngIf="!validarConfirmacionContrasenia()">El campo es requerido</div>
+            <div *ngIf="!validarMismaContrasenia() && validarConfirmacionContrasenia()">
+              Las contraseñas no coinciden</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <br>
+
+
+  <h4>Datos Solicitante</h4>
+  <hr class="sep-tt">
+
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Número Documento</label>
+        <div class="col-sm-4">
+          <!--<em *ngIf="!validarNumeroDocumento() && formularioSolicitante.controls.numeroDocumento.errors.required">El campo es requerido</em>-->
+          <!--<input formControlName="numeroDocumento"  class="form-control" type="text" [(ngModel)]="solicitante.numeroDocumento" name="numeroDocumento" [ngClass]="{'error' : !validarNumeroDocumento()}">-->
+          <input  class="form-control" type="text" [(ngModel)]="solicitante.numeroDocumento" name="numeroDocumento" id="numeroDocumento" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.numeroDocumento?.invalid && (formSolicitante.controls.numeroDocumento.touched)">El número de documento es requerido</div>
+        </div>
+
+        <label class="col-sm-2 col-form-label">Tipo Documento</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoTipoDocumento" name="tipoDocumento" required id="tipoDocumento">
+            <option value="0">-- Seleccione --</option>
+            <option *ngFor="let tipoDocumento of tipoDocumentos" [ngValue]="tipoDocumento.id_tipo_documento">{{tipoDocumento.descripcion}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="(formSolicitante.controls.tipoDocumento?.invalid && (formSolicitante.controls.tipoDocumento?.touched))|| (formSolicitante.controls.tipoDocumento?.touched && valorSeleccionadoTipoDocumento == 0)">El tipo de documento es requerido</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Nombres</label>
+        <div class="col-sm-4">
+          <!--<input formControlName="nombres"  class="form-control" type="text" [(ngModel)]="solicitante.nombres" name="nombres" [ngClass]="{'error' : !validarNombres()}">-->
+          <input  class="form-control" type="text" [(ngModel)]="solicitante.nombres" name="nombres" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.nombres?.invalid && (formSolicitante.controls.nombres.touched)">El nombre es requerido</div>
+        </div>
+
+
+        <label class="col-sm-2 col-form-label">Apellidos</label>
+        <div class="col-sm-4">
+          <!--<input formControlName="apellidos" class="form-control" type="text" [(ngModel)]="solicitante.apellidos" name="apellidos" [ngClass]="{'error' : !validarApellidos()}">-->
+          <input class="form-control" type="text" [(ngModel)]="solicitante.apellidos" name="apellidos" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.apellidos?.invalid && (formSolicitante.controls.apellidos.touched)">El apellido es requerido</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Dirección</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" [(ngModel)]="solicitante.direccion" name="direccion" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.direccion?.invalid && (formSolicitante.controls.direccion.touched)">La dirección es requerida</div>
+        </div>
+
+        <label class="col-sm-2 col-form-label">Teléfono</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" [(ngModel)]="solicitante.telefono" name="telefono" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.telefono?.invalid && (formSolicitante.controls.telefono.touched)">El teléfono es requerido</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Género</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoGenero" name="genero" required>
+            <option value="0">-- Seleccione --</option>
+            <option *ngFor="let genero of generos" [ngValue]="genero.id_genero">{{genero.descripcion}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="(formSolicitante.controls.genero?.invalid && (formSolicitante.controls.genero?.touched))|| (formSolicitante.controls.genero?.touched && valorSeleccionadoGenero == 0)">El género es requerido</div>
+        </div>
+        <label class="col-sm-2 col-form-label">Estrato</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" [(ngModel)]="solicitante.estrato" name="estrato" required>
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.estrato?.invalid && (formSolicitante.controls.estrato.touched)">El estrato es requerido</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Tipo Población</label>
+        <!--<div class="col-sm-4">-->
+        <!--<select class="form-control" [(ngModel)]="selectedValue" name="tipoDocumento" required>-->
+        <!--<option *ngFor="let tipoDocumento of tipoDocumentos" [ngValue]="tipoDocumento.id">{{tipoDocumento.descripcion}}</option>-->
+        <!--</select>-->
+        <!--</div>-->
+        <!--<div class="col-sm-4">-->
+        <!--<input class="form-control" type="text" [(ngModel)]="solicitante.tipoPoblacion" name="telefono" required>-->
+        <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.tipoPoblacion?.invalid && (formSolicitante.controls.tipoPoblacion.touched)">El tipo de población es requerido</div>-->
+        <!--</div>-->
+
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoTipoPoblacion" name="tipoPoblacion" required>
+            <option *ngFor="let tipoPoblacion of tiposPoblacion" [ngValue]="tipoPoblacion.id">{{tipoPoblacion.descripcion}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="(formSolicitante.controls.tipoPoblacion?.invalid && (formSolicitante.controls.tipoPoblacion?.touched))|| (formSolicitante.controls.tipoPoblacion?.touched && valorSeleccionadoTipoPoblacion == 0)">El tipo de población es requerido</div>
+        </div>
+
+        <label class="col-sm-2 col-form-label">Fecha Nacimiento</label>
+        <div class="col-sm-4">
+          <!--<input class="form-control" type="date" [(ngModel)]="solicitante.fechaNacimiento" name="fechaNacimiento" required>-->
+          <input class="form-control" type="text" [(ngModel)]="solicitante.fechaNacimiento" name="fechaNacimiento" required bsDatepicker placeholder="Seleccione una fecha...">
+          <div class="form-control alert-danger" *ngIf="formSolicitante.controls.fechaNacimiento?.invalid && (formSolicitante.controls.fechaNacimiento.touched)">La fecha de nacimiento es requerida</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Pais Nacimiento</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoPaisNacimiento" name="paisNacimiento" required>
+            <option value="0">-- Seleccione --</option>
+            <option *ngFor="let pais of paises" [ngValue]="pais.id_pais">{{pais.nombre}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="(formSolicitante.controls.paisNacimiento?.invalid && (formSolicitante.controls.paisNacimiento.touched)) || (formSolicitante.controls.paisNacimiento?.touched && valorSeleccionadoPaisNacimiento == 0)">El pais de nacimiento es requerido</div>
+        </div>
+
+        <!--<label class="col-sm-2 col-form-label">Departamento  Nacimiento</label>-->
+        <!--<div class="col-sm-4">-->
+          <!--<select class="form-control" [(ngModel)]="valorSeleccionadoDepartamentoNacimiento" name="departamentoNacimiento" required>-->
+            <!--<option *ngFor="let departamento of departamentos" [ngValue]="departamento.id">{{departamento.descripcion}}</option>-->
+          <!--</select>-->
+          <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.departamentoNacimiento?.invalid && (formSolicitante.controls.departamentoNacimiento.touched)">El departamento de nacimiento es requerido</div>-->
+        <!--</div>-->
+
+
+        <label class="col-sm-2 col-form-label">Pais Residencia</label>
+        <div class="col-sm-4">
+          <select class="form-control" [(ngModel)]="valorSeleccionadoPaisResidencia" name="paisResidencia">
+            <option value="0">-- Seleccione --</option>
+            <option *ngFor="let pais of paises" [ngValue]="pais.id_pais">{{pais.nombre}}</option>
+          </select>
+          <div class="form-control alert-danger" *ngIf="(formSolicitante.controls.paisResidencia?.invalid && (formSolicitante.controls.paisResidencia.touched)) || (formSolicitante.controls.paisResidencia?.touched && valorSeleccionadoPaisResidencia == 0)">El pais de residencia es requerido</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!--<div class="row">-->
+      <!--<div class="form-group row">-->
+        <!--<label class="col-sm-2 col-form-label">Ciudad Nacimiento</label>-->
+        <!--<div class="col-sm-4">-->
+          <!--<select class="form-control" [(ngModel)]="valorSeleccionadoCiudadNacimiento" name="paisResidencia" required>-->
+            <!--<option *ngFor="let municipio of municipios" [ngValue]="municipio.id">{{municipio.descripcion}}</option>-->
+          <!--</select>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+
+    <!--<div class="row">-->
+      <!--<div class="form-group row">-->
+        <!--<label class="col-sm-2 col-form-label">Pais Residencia</label>-->
+        <!--<div class="col-sm-4">-->
+          <!--<select class="form-control" [(ngModel)]="valorSeleccionadoPaisResidencia" name="paisResidencia">-->
+            <!--<option *ngFor="let pais of paises" [ngValue]="pais.id">{{pais.nombre}}</option>-->
+          <!--</select>-->
+          <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.paisResidencia?.invalid && (formSolicitante.controls.paisResidencia.touched)">El pais de residencia es requerido</div>-->
+        <!--</div>-->
+
+        <!--<label class="col-sm-2 col-form-label">Departamento  Residencia</label>-->
+        <!--<div class="col-sm-4">-->
+          <!--<select class="form-control" [(ngModel)]="valorSeleccionadoDepartamentoResidencia" name="departamentoResidencia">-->
+            <!--<option *ngFor="let departamento of departamentos" [ngValue]="departamento.id">{{departamento.descripcion}}</option>-->
+          <!--</select>-->
+          <!--<div class="form-control alert-danger" *ngIf="formSolicitante.controls.departamentoResidencia?.invalid && (formSolicitante.controls.departamentoResidencia.touched)">El departamento de nacimiento es requerido</div>-->
+        <!--</div>-->
+
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row">-->
+      <!--<div class="form-group row">-->
+        <!--<label class="col-sm-2 col-form-label">Ciudad Residencia</label>-->
+        <!--<div class="col-sm-4">-->
+          <!--<select class="form-control" [(ngModel)]="valorSeleccionadoCiudadResidencia" name="municipioResidencia">-->
+            <!--<option *ngFor="let municipio of municipios" [ngValue]="municipio.id">{{municipio.descripcion}}</option>-->
+          <!--</select>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  </div>
+  <h4>Información Académica Básica</h4>
+  <hr class="sep-tt">
+  <div class="container">
+    <div class="row top-buffer" >
+      <div class="col-sm-offset-8 col-sm-4">
+        <button type="button" class="btn btn-primary btn-block" modal-trigger="informacionAcademicaBasica"><span class="glyphicon glyphicon-plus"></span> Agregar Información Académica Básica</button>
+      </div>
+    </div>
+    <div  class="table-responsive top-buffer">
+      <table *ngIf="listadoInformacionAcademicaBasica && listadoInformacionAcademicaBasica.length" class="table table-bordered">
+        <thead>
+        <!--<tr class="info">-->
+        <tr>
+          <th>Institución</th>
+          <th>Año Inicio</th>
+          <th>Año Fin</th>
+          <th>Fecha Grado</th>
+          <th>Último Grado Escolar</th>
+          <th>Prueba Saber</th>
+          <th>Calificación Prueba Saber</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let informacionAcademicaBasica of listadoInformacionAcademicaBasica'>
+          <td>{{ informacionAcademicaBasica?.institucionAcademicaBasica.nombre}}</td>
+          <td>{{informacionAcademicaBasica.ano_inicio}}</td>
+          <td>{{informacionAcademicaBasica.ano_fin }}</td>
+          <td>{{informacionAcademicaBasica.fecha_grado | date:'shortDate'}}</td>
+          <td>{{informacionAcademicaBasica.ultimo_grado_escolar }}</td>
+          <td>{{informacionAcademicaBasica.pruebas_saber == true ? 'Si': 'No' }}</td>
+          <td>{{informacionAcademicaBasica.calificacion_pruebas_saber  }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h4>Información Académica Superior</h4>
+  <hr class="sep-tt">
+  <div class="container">
+    <div class="row top-buffer" >
+      <div class="col-sm-offset-8 col-sm-4">
+        <button type="button" class="btn btn-primary btn-block" modal-trigger="informacionAcademicaSuperior"><span class="glyphicon glyphicon-plus"></span> Agregar Información Académica Superior</button>
+      </div>
+    </div>
+    <div  class="table-responsive top-buffer">
+      <table *ngIf="listadoInformacionAcademicaSuperior && listadoInformacionAcademicaSuperior.length" class="table table-bordered">
+        <thead>
+        <tr>
+          <!--<tr>-->
+          <th>Institución</th>
+          <th>Año Inicio</th>
+          <th>Año Fin</th>
+          <th>Fecha Grado</th>
+          <th>Programa</th>
+          <th>Título Obtenido</th>
+          <th>Semestres Programa</th>
+          <th>Semestres Cursados</th>
+          <th>Créditos</th>
+          <th>Registro Calificado</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let informacionAcademicaSuperior of listadoInformacionAcademicaSuperior'>
+          <td>{{informacionAcademicaSuperior.institucionAcademicaSuperior?.nombre}}</td>
+          <td>{{informacionAcademicaSuperior.ano_inicio }}</td>
+          <td>{{informacionAcademicaSuperior.ano_fin }}</td>
+          <td>{{informacionAcademicaSuperior.fecha_grado | date:'shortDate'}}</td>
+          <td>{{informacionAcademicaSuperior.nombre_programa }}</td>
+          <td>{{informacionAcademicaSuperior.titulo_obtenido }}</td>
+          <td>{{informacionAcademicaSuperior.semestres_programa }}</td>
+          <td>{{informacionAcademicaSuperior.semestres_cursados }}</td>
+          <td>{{informacionAcademicaSuperior.cantidad_creditos }}</td>
+          <td>{{informacionAcademicaSuperior.registro_calificado == true ? 'Si': 'No' }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <h4>Información Idiomas</h4>
+  <hr class="sep-tt">
+  <div class="container">
+    <div class="row top-buffer" >
+      <div class="col-sm-offset-8 col-sm-4">
+        <button type="button" class="btn btn-primary btn-block" modal-trigger="informacionIdioma"><span class="glyphicon glyphicon-plus"></span> Agregar Información Idioma</button>
+      </div>
+    </div>
+    <div  class="table-responsive top-buffer">
+      <table *ngIf="listadoInformacionNivelIdioma && listadoInformacionNivelIdioma.length" class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Idioma</th>
+          <th>Nivel</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let informacionNivelIdioma of listadoInformacionNivelIdioma'>
+          <td>{{informacionNivelIdioma?.idioma.descripcion}}</td>
+          <td>{{informacionNivelIdioma?.nivelIdioma.descripcion }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h4>Experiencia Laboral</h4>
+  <hr class="sep-tt">
+  <div class="container">
+    <div class="row top-buffer">
+      <div class="col-sm-offset-8 col-sm-4">
+        <button type="button" class="btn btn-primary btn-block" modal-trigger="experienciaLaboral"><span class="glyphicon glyphicon-plus"></span> Agregar Experiencia Laboral</button>
+      </div>
+
+    </div>
+
+    <div  class="top-buffer table-responsive">
+      <table *ngIf="listadoExperienciaLaboral && listadoExperienciaLaboral.length" class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Empresa</th>
+          <th>Cargo</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let experienciaLaboralSolicitante of listadoExperienciaLaboral'>
+            <td>{{experienciaLaboralSolicitante.nombre_empresa}}</td>
+            <td>{{experienciaLaboralSolicitante.cargo}}</td>
+            <td>{{experienciaLaboralSolicitante.fecha_inicio | date:'shortDate'}}</td>
+            <td>{{experienciaLaboralSolicitante.fecha_fin | date:'shortDate'}}</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <!--<button type="submit" class="btn btn-primary">Crear</button>-->
+  <!--<span (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false"><button type="submit" class="btn btn-primary" [disabled]="formSolicitante.invalid" >Crear</button></span>-->
+  <span (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false"><button type="submit" class="btn btn-primary" [disabled]="formSolicitante.invalid">Crear</button></span>
+  <a class="btn btn-secondary" [routerLink]="['/login-becas']" role="button">Cancelar</a>
+
+  <div>
+    <experiencia-laboral-modal (experienciaLaboralAgregada)="agregarExperienciaLaboral($event)"></experiencia-laboral-modal>
+  </div>
+
+  <div>
+    <informacion-academica-basica-modal (informacionAcademicaBasicaAgregada)="agregarInformacionAcademicaBasica($event)"></informacion-academica-basica-modal>
+  </div>
+
+  <div>
+    <informacion-academica-superior-modal (informacionAcademicaSuperiorAgregada)="agregarInformacionAcademicaSuperior($event)"></informacion-academica-superior-modal>
+  </div>
+
+  <div>
+    <informacion-idioma-modal (informacionIdiomaAgregada)="agregarInformacionIdioma($event)"></informacion-idioma-modal>
+  </div>
+
+</form>
