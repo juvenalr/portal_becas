@@ -65,7 +65,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 
 
 
-declare let jQuery : Object;
+//declare let jQuery : Object;
 
 
 @NgModule({
