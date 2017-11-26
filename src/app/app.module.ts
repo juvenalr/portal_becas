@@ -63,6 +63,8 @@ import {ServicioNivelIdioma} from "./services/nivel.idioma.service";
 import {InformacionIdiomaComponent} from "./solicitante/informacion-idioma/informacion-idioma.component";
 import { BsDatepickerModule } from 'ngx-bootstrap';
 
+
+
 declare let jQuery : Object;
 
 
